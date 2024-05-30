@@ -13,6 +13,7 @@ interface DatasTypes {
     status: string,
     location: string,
     concernRaisedDate: string,
+    taskId:string
 }
 function TaskManagement() {
     const [datas, setDatas] = useState<DatasTypes[]>([]);
@@ -110,7 +111,7 @@ function TaskManagement() {
                     :
                     datas.map((data, index) => {
                         return (
-                            <TaskList key={index} task={data.actionPlan} taskFor={data.concept} taskStatus={data.status} location={data.location} date={data.concernRaisedDate} />
+                            <TaskList key={index} task={data.concept} taskFor={data.actionPlan} taskStatus={data.status} location={data.location} date={data.concernRaisedDate} taskId={data.taskId}/>
                         )
                     })
                 }

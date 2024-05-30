@@ -11,7 +11,10 @@ export const ENDPOINTS={
     DOWNLOAD_REPORT :BUSSINESS_URL+"/api/DashBoard/DownloadReport",
     GET_ALL_COMPLETED_TASKS : BUSSINESS_URL+"/api/Task/GetAllCompletedTask",
     GET_ALL_PENDING_TASKS : BUSSINESS_URL+'/api/Task/GetAllPendingTask',
-    GET_ALL_TASKS: BUSSINESS_URL+'/api/Task/TaskDetail'
+    GET_ALL_TASKS: BUSSINESS_URL+'/api/Task/TaskDetail',
+    TASK_CREATION:BUSSINESS_URL+'/api/Task/TaskCreation',
+    EDIT_TASKS:BUSSINESS_URL+'/api/Task/EditTaskDetails',
+    VIEW_TASK : BUSSINESS_URL+'/api/Task/ViewTask'
 }
 
     

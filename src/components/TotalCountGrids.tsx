@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +39,6 @@ const TotalCountGrids: React.FC<TotalCountGridsProps> = ({ title, icon, count, i
                         {title}
                     </Typography>
                 </Box>
-                
                 <Box sx={{bord:'1px solid #EEEEEE'}}>
                     <Typography sx={{fontSize:'20px' , fontWeight:600}}>
                     {count}

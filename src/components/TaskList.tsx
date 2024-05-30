@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material'
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface TaskDetails {
     task: string,
@@ -7,16 +8,18 @@ interface TaskDetails {
     taskStatus: string,
     location: string,
     date: string
+    taskId: string
 }
-const TaskList: React.FC<TaskDetails> = ({ task, taskFor, taskStatus, location, date }) => {
+const TaskList: React.FC<TaskDetails> = ({ task, taskFor, taskStatus, location, date, taskId }) => {
+    const navigate = useNavigate();
     return (
         <Grid item
-            width={'351px'} sx={{
+            width={'340px'} sx={{
                 border: '1px solid',
                 borderColor: '#D9D9D9',
                 borderRadius: '13px',
                 padding: '20px'
-            }}>
+            }}> 
             <Grid
                 sx={{
                     display: 'flex',
@@ -70,7 +73,7 @@ const TaskList: React.FC<TaskDetails> = ({ task, taskFor, taskStatus, location, 
                     </Box>
                 </Grid>
                 <Grid>
-                    <Button variant='text'><img src='/img/Edit.svg' /></Button>
+                    <Button variant='text'><img src='/img/Edit.svg' onClick={()=>navigate(`/edit-task/${taskId}`)}/></Button>
                 </Grid>
             </Grid>
         </Grid>

@@ -48,6 +48,7 @@ function Dashboard() {
       fromDate: fromDate ? fromDate : "0001-01-01",
       location: updatedLocation ? updatedLocation : ""
     }
+    console.log(body)
     axios.post(ENDPOINTS.DASHBOARD_KPIVALUES, body, { headers })
       .then((response) => {
         setDataCount(
@@ -174,11 +175,11 @@ function Dashboard() {
       {loading ?
         <Grid
           sx={{
-            width: "85vw",
-            height: "85vh",
-            justifyContent: "center",
+            width: "80%",
+            height: "80%",
+            alignItems: 'center',
+            justifyContent: 'center',
             display: "flex",
-            alignItems: "center",
             backgroundColor: "rgba(255, 255, 255, 0.7)",
             position: 'absolute'
           }}

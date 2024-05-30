@@ -1,12 +1,40 @@
-import { Box, Button, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from '@mui/material'
-import axios from 'axios';
-import { useState } from 'react';
-import { ENDPOINTS } from '../../utils/sevices';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../utils/store';
-
-function AddTask() {
-
+import { useSelector } from "react-redux";
+import { RootState } from "../../utils/store";
+import { useEffect, useState } from "react";
+import { Box, Button, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { ENDPOINTS } from "../../utils/sevices";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+interface responseDataType {
+    concept: string;
+    location: string;
+    maintenanceWork: string;
+    poc: string;
+    responsibility: string;
+    concernRaisedDate: string;
+    raisedTime: string;
+    status: string;
+    aging: string;
+    approvedQuotationDate: string;
+    actionPlan: string;
+    priority: string;
+}
+function EditTask() {
+    const { id } = useParams();
+    const [responseData, setResponseDate] = useState<responseDataType>({
+        concept: '',
+        location: '',
+        maintenanceWork: '',
+        poc: '',
+        responsibility: '',
+        concernRaisedDate: '',
+        raisedTime: '',
+        status: '',
+        aging: '',
+        approvedQuotationDate: '',
+        actionPlan: '',
+        priority: ''
+    });
     const [priority, setPriority] = useState('');
     const [concept, setConcept] = useState('');
     const [location, setLocation] = useState('');
@@ -21,6 +49,13 @@ function AddTask() {
     const [actionPlan, setActionPlan] = useState('');
     const headers = useSelector((state: RootState) => state.auth.token);
 
+    useEffect(() => {
+        axios.get(ENDPOINTS.VIEW_TASK + `/${id}`, { headers })
+            .then((response) => {
+                console.log(response.data)
+                setResponseDate(response.data)
+            })
+    }, [])
     const handleChange = (event: SelectChangeEvent) => {
         setPriority(event.target.value as string);
     };
@@ -30,6 +65,7 @@ function AddTask() {
     }
     const handleSubmit = () => {
         const body = {
+            taskId: id,
             concept,
             location,
             maintenanceWork,
@@ -41,10 +77,10 @@ function AddTask() {
             status,
             aging,
             approvedQuotationDate,
-            actionPlan
+            actionPlan,
         }
         console.log(body)
-        axios.post(ENDPOINTS.TASK_CREATION, body, { headers })
+        axios.post(ENDPOINTS.EDIT_TASKS, body, { headers })
             .then((response) => {
                 console.log(response)
             })
@@ -61,16 +97,17 @@ function AddTask() {
                 <Grid display={'flex'} gap={'30px'} >
                     <Box sx={{ width: '100%' }}>
                         <Typography>Concept</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={concept} onChange={(e) => setConcept(e.target.value)} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} placeholder={responseData.concept} value={concept} onChange={(e) => setConcept(e.target.value)} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Location</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={location} onChange={(e) => setLocation(e.target.value)} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={location} onChange={(e) => setLocation(e.target.value)} placeholder={responseData.location} />
                     </Box>
                 </Grid>
                 <Grid sx={{ width: '100%' }}>
                     <Typography>Maintenance work</Typography>
                     <TextField
+                        placeholder={responseData.maintenanceWork}
                         variant="outlined"
                         sx={{
                             width: '100%',
@@ -84,27 +121,27 @@ function AddTask() {
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Person to contact in store name</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={poc} onChange={(e) => setContactPerson(e.target.value)} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={poc} onChange={(e) => setContactPerson(e.target.value)} placeholder={responseData.poc} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Responsibility</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={responsibility} onChange={(e) => setResposibility(e.target.value)} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={responsibility} onChange={(e) => setResposibility(e.target.value)} placeholder={responseData.responsibility} />
                     </Box>
                 </Grid>
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Concern raise date</Typography>
-                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={concernRaisedDate} onChange={(e) => setRaisedDate(e.target.value)} />
+                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={concernRaisedDate} onChange={(e) => setRaisedDate(e.target.value)} placeholder={responseData.concernRaisedDate} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Raised Time</Typography>
-                        <TextField variant="outlined" type='time' sx={{ width: "100%" }} value={raisedTime} onChange={changeTimeFormat} />
+                        <TextField variant="outlined" type='time' sx={{ width: "100%" }} value={raisedTime} onChange={changeTimeFormat} placeholder={responseData.raisedTime} />
                     </Box>
                 </Grid>
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Priority</Typography>
-                        <Select
+                        <Select placeholder={responseData.priority}
                             sx={{ width: '100%' }}
                             value={priority}
                             onChange={handleChange}
@@ -116,22 +153,22 @@ function AddTask() {
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>status</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={status} onChange={(e) => setStatus(e.target.value)} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={status} onChange={(e) => setStatus(e.target.value)} placeholder={responseData.status} />
                     </Box>
                 </Grid>
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Aging</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={aging} onChange={(e) => setAging(e.target.value)} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={aging} onChange={(e) => setAging(e.target.value)} placeholder={responseData.aging} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Approved Quoatation Date</Typography>
-                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={approvedQuotationDate} onChange={(e) => setApprovedDate(e.target.value)} />
+                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={approvedQuotationDate} onChange={(e) => setApprovedDate(e.target.value)} placeholder={responseData.approvedQuotationDate} />
                     </Box>
                 </Grid>
                 <Grid sx={{ width: '100%' }}>
                     <Typography>Action Plan</Typography>
-                    <TextField label="Enter Action Plan" variant="outlined" sx={{
+                    <TextField placeholder={responseData.actionPlan} label="Enter Action Plan" variant="outlined" sx={{
                         width: "100%",
                         '& .MuiInputBase-input': {
                             padding: '30px 14px',
@@ -145,4 +182,5 @@ function AddTask() {
         </Grid>
     )
 }
-export default AddTask
+
+export default EditTask

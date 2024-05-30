@@ -13,8 +13,8 @@ import TaskManagement from "./pages/TaskManagement";
 import SettingsPage from "./pages/Settings";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import ViewOrEditTask from "./pages/ViewOrEditTask";
 import AddTask from "./pages/Tast-Management/AddTask";
+import EditTask from "./pages/Tast-Management/EditTask";
 function App() {
 
   const router = createBrowserRouter(createRoutesFromElements(
@@ -28,8 +28,8 @@ function App() {
         <Route path="/task-management" element={<TaskManagement/>}/>
         <Route path="/tasks/:status" element={<Tasks/>} />
         <Route path="/settings" element={<SettingsPage/>}/>
-        <Route path="/view-task" element={<ViewOrEditTask/>}/>
         <Route path="/add-task" element={<AddTask/>}/>
+        <Route path="/edit-task/:id" element={<EditTask/>}/>
       </Route>
     </>
   ))

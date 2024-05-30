@@ -57,7 +57,6 @@ function Layout() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -81,8 +80,8 @@ function Layout() {
   const notificationOpen = Boolean(notificationAnchor);
   const notificationId = notificationOpen ? 'simple-popover' : undefined;
   return (
-    <Grid container>
-      <Grid item className={isLargeScreen ? '' : styles.ForLargeScreen} xs={isLargeScreen ? 2 : 0} border={1} borderColor={'#EEEEEE'} height={'100vh'} width={'15%'}>
+    <Grid container display={'flex'}>
+      <Grid item className={isLargeScreen ? '' : styles.ForLargeScreen} border={1} borderColor={'#EEEEEE'} height={'100vh'}>
         <Grid display={'flex'} justifyContent={'flex-start'}>
           <List>
             <ListItem >
@@ -91,7 +90,7 @@ function Layout() {
               </ImageListItem>
             </ListItem>
             <ListItem >
-              <ListItemButton onClick={() => navigate('/')} className={dashBoardActive ? 'active-button' : ''} sx={{ bgcolor: 'white', color: '#616161', borderRadius: '12px', height: '49px', width: '214px' }}>
+              <ListItemButton onClick={() => navigate('/')} className={dashBoardActive ? 'active-button' : ''} sx={{ bgcolor: 'white', color: '#616161', borderRadius: '12px', height: '49px', width: '100%' }}>
                 <ListItemIcon>
                   <img src={dashBoardActive ? 'img/Category_Active.svg' : 'img/Category.svg'} />
                 </ListItemIcon>
@@ -117,15 +116,19 @@ function Layout() {
           </List>
         </Grid>
       </Grid>
-      <Grid item xs={isLargeScreen ? 10 : 0} height={'100vh'} overflow={'scroll'} >
+      <Grid item  overflow={'scroll'} height={'100vh'} flex={1}>
         <Grid
+          position= {'fixed'}
+          width={'100vw'}
+          top={0}
+          z-index={100}
           height={'7.47%'}
           display={'flex'}
           justifyContent={isLargeScreen ? 'flex-end' : 'space-between'}
           alignItems={'center'}
           border={1}
           borderColor={'#EEEEEE'}
-          bgcolor={'#FFFFFF'}
+          sx={{backgroundColor:'white',opacity:1}}
         >
           <Grid className={!isLargeScreen ? '' : styles.ForLargeScreen} >
             <img src='/img/menu_Icon.svg' />
@@ -208,7 +211,6 @@ function Layout() {
                 anchorOrigin={{
                   vertical: 'bottom',
                   horizontal: 'right',
-
                 }}
                 anchorReference="anchorPosition"
                 anchorPosition={{ top: 70, left: 1777 }}
@@ -228,7 +230,7 @@ function Layout() {
             </Box>
           </Grid>
         </Grid>
-        <Grid px={'4%'} my={'20.7px'}>
+        <Grid item p={'4%'} mt={'25px'}>
           <Outlet />
         </Grid>
       </Grid>

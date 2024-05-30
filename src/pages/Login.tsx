@@ -8,7 +8,6 @@ import { AppDispatch } from "../utils/store";
 import { setToken } from "../utils/slice";
 import { ENDPOINTS } from "../utils/sevices";
 
-
 function Login() {
     const [inputEmail, setEmail] = useState<string>('');
     const [inputPassword, setPassword] = useState('');
