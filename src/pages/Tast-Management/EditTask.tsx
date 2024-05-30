@@ -50,10 +50,21 @@ function EditTask() {
     const headers = useSelector((state: RootState) => state.auth.token);
 
     useEffect(() => {
-        axios.get(ENDPOINTS.VIEW_TASK + `/${id}`, { headers })
+        axios.get<responseDataType>(ENDPOINTS.VIEW_TASK + `/${id}`, { headers })
             .then((response) => {
-                console.log(response.data)
-                setResponseDate(response.data)
+                setConcept(response.data.concept);
+                setPriority(response.data.priority);
+                setLocation(response.data.location);
+                setMaintenance(response.data.maintenanceWork);
+                setContactPerson(response.data.poc);
+                setResposibility(response.data.responsibility);
+                setRaisedDate(response.data.concernRaisedDate);
+                setRaisedTime(response.data.raisedTime);
+                setStatus(response.data.status);
+                setAging(response.data.aging);
+                setApprovedDate(response.data.approvedQuotationDate);
+                setActionPlan(response.data.actionPlan);
+                console.log(priority)
             })
     }, [])
     const handleChange = (event: SelectChangeEvent) => {
@@ -79,7 +90,6 @@ function EditTask() {
             approvedQuotationDate,
             actionPlan,
         }
-        console.log(body)
         axios.post(ENDPOINTS.EDIT_TASKS, body, { headers })
             .then((response) => {
                 console.log(response)
@@ -91,23 +101,22 @@ function EditTask() {
     return (
         <Grid>
             <Typography sx={{ fontSize: '20px' }}>
-                Add Task
+                Edit Task
             </Typography>
             <Grid sx={{ width: '60%', gap: '20px', display: 'flex', flexDirection: 'column', mt: '20px' }}>
                 <Grid display={'flex'} gap={'30px'} >
                     <Box sx={{ width: '100%' }}>
                         <Typography>Concept</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} placeholder={responseData.concept} value={concept} onChange={(e) => setConcept(e.target.value)} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={concept} onChange={(e) => setConcept(e.target.value)} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Location</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={location} onChange={(e) => setLocation(e.target.value)} placeholder={responseData.location} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={location} onChange={(e) => setLocation(e.target.value)} />
                     </Box>
                 </Grid>
                 <Grid sx={{ width: '100%' }}>
                     <Typography>Maintenance work</Typography>
                     <TextField
-                        placeholder={responseData.maintenanceWork}
                         variant="outlined"
                         sx={{
                             width: '100%',
@@ -121,54 +130,55 @@ function EditTask() {
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Person to contact in store name</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={poc} onChange={(e) => setContactPerson(e.target.value)} placeholder={responseData.poc} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={poc} onChange={(e) => setContactPerson(e.target.value)} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Responsibility</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={responsibility} onChange={(e) => setResposibility(e.target.value)} placeholder={responseData.responsibility} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={responsibility} onChange={(e) => setResposibility(e.target.value)} />
                     </Box>
                 </Grid>
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Concern raise date</Typography>
-                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={concernRaisedDate} onChange={(e) => setRaisedDate(e.target.value)} placeholder={responseData.concernRaisedDate} />
+                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={concernRaisedDate} onChange={(e) => setRaisedDate(e.target.value)} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Raised Time</Typography>
-                        <TextField variant="outlined" type='time' sx={{ width: "100%" }} value={raisedTime} onChange={changeTimeFormat} placeholder={responseData.raisedTime} />
+                        <TextField variant="outlined" type='time' sx={{ width: "100%" }} value={raisedTime} onChange={changeTimeFormat} />
                     </Box>
                 </Grid>
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Priority</Typography>
-                        <Select placeholder={responseData.priority}
+                        <Select
                             sx={{ width: '100%' }}
                             value={priority}
                             onChange={handleChange}
                         >
-                            <MenuItem value={'p1'}>P1</MenuItem>
-                            <MenuItem value={'p2'}>P2</MenuItem>
-                            <MenuItem value={'p3'}>P3</MenuItem>
+                            <MenuItem value=''>None</MenuItem>
+                            <MenuItem value={'P1'}>P1</MenuItem>
+                            <MenuItem value={'P2'}>P2</MenuItem>
+                            <MenuItem value={'P3'}>P3</MenuItem>
                         </Select>
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>status</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={status} onChange={(e) => setStatus(e.target.value)} placeholder={responseData.status} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={status} onChange={(e) => setStatus(e.target.value)} />
                     </Box>
                 </Grid>
                 <Grid display={'flex'} gap={'30px'}>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Aging</Typography>
-                        <TextField variant="outlined" sx={{ width: "100%" }} value={aging} onChange={(e) => setAging(e.target.value)} placeholder={responseData.aging} />
+                        <TextField variant="outlined" sx={{ width: "100%" }} value={aging} onChange={(e) => setAging(e.target.value)} />
                     </Box>
                     <Box sx={{ width: '100%' }}>
                         <Typography>Approved Quoatation Date</Typography>
-                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={approvedQuotationDate} onChange={(e) => setApprovedDate(e.target.value)} placeholder={responseData.approvedQuotationDate} />
+                        <TextField variant="outlined" type='date' sx={{ width: "100%" }} value={approvedQuotationDate} onChange={(e) => setApprovedDate(e.target.value)} />
                     </Box>
                 </Grid>
                 <Grid sx={{ width: '100%' }}>
                     <Typography>Action Plan</Typography>
-                    <TextField placeholder={responseData.actionPlan} label="Enter Action Plan" variant="outlined" sx={{
+                    <TextField label="Enter Action Plan" variant="outlined" sx={{
                         width: "100%",
                         '& .MuiInputBase-input': {
                             padding: '30px 14px',
